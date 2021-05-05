@@ -5,8 +5,13 @@
     <string name="password_text">Password:</string>
     <string name="login_text">LOGIN</string>
     <string name="signup_text">SIGN UP</string>
+    <string name="register_text">Register Account</string>
 
     <!--Hints for EditText(s)-->
     <string name="username_hint">username</string>
+    <string name="email_hint">e-mail</string>
+    <string name="phone_hint">phone</string>
+    <string name="address_hint">address</string>
     <string name="password_hint">password</string>
+    <string name="confirm_password_hint">confirm password</string>
 </resources>

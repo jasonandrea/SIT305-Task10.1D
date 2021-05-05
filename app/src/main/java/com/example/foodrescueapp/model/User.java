@@ -3,7 +3,7 @@ package com.example.foodrescueapp.model;
 public class User {
     // Instance variables
     private int userId;
-    private String username, password;
+    private String username, password, email, phone, address;
 
     // Constructor
     public User() {    }
@@ -16,6 +16,14 @@ public class User {
     public User(int userId, String username, String password) {
         this.userId = userId;
         this.username = username;
+        this.password = password;
+    }
+
+    public User(String username, String email, String phone, String address, String password) {
+        this.username = username;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
         this.password = password;
     }
 
