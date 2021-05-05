@@ -1,0 +1,12 @@
+<resources>
+    <!--Common strings-->
+    <string name="app_name">Food Rescue App</string>
+    <string name="username_text">Username:</string>
+    <string name="password_text">Password:</string>
+    <string name="login_text">LOGIN</string>
+    <string name="signup_text">SIGN UP</string>
+
+    <!--Hints for EditText(s)-->
+    <string name="username_hint">username</string>
+    <string name="password_hint">password</string>
+</resources>
