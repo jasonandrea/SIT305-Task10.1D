@@ -11,14 +11,14 @@ import android.view.MenuItem;
 
 import com.example.foodrescueapp.util.Keys;
 
-public class HomeActivity extends AppCompatActivity {
+public class MyListActivity extends AppCompatActivity {
     private Intent intent;
     private int logged_in_user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_my_list);
 
         // Get intent and get user id from the intent
         intent = getIntent();
@@ -37,15 +37,15 @@ public class HomeActivity extends AppCompatActivity {
         // Do actions based on the option chosen by the user
         switch (item.getItemId()) {
             case R.id.homeOption: // "Home" option chosen
-                intent = new Intent(HomeActivity.this, HomeActivity.class);
+                intent = new Intent(MyListActivity.this, HomeActivity.class);
                 intent.putExtra(Keys.USER_ID_KEY, logged_in_user_id);    // Put user id to intent
-                startActivity(intent);   // Start new HomeActivity with same user id passed to intent
-                finish();                // Finish current activity
+                startActivity(intent);  // Start new HomeActivity with same user id passed to intent
+                finish();               // Finish current activity
                 break;
             case R.id.accountOption: // "Account" option chosen
                 break;
             case R.id.myListOption: // "My list" option chosen
-                intent = new Intent(HomeActivity.this, MyListActivity.class);
+                intent = new Intent(MyListActivity.this, MyListActivity.class);
                 intent.putExtra(Keys.USER_ID_KEY, logged_in_user_id);   // Put user id to intent
                 startActivity(intent);  // Start new HomeActivity with same user id passed to intent
                 finish();               // Finish current activity

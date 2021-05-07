@@ -9,6 +9,7 @@
     <!-- Screen title strings -->
     <string name="signup_title">Register Account</string>
     <string name="home_title">Discover free food</string>
+    <string name="my_list_title">My list</string>
 
     <!-- Hints for EditText(s) -->
     <string name="username_hint">username</string>
