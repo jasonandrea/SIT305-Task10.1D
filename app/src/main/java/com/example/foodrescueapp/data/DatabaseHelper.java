@@ -18,24 +18,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // String variable to store create table command
-        String CREATE_USER_TABLE = "CREATE TABLE " + DbInfo.TABLE_NAME + "(" + DbInfo.USER_ID +
+        // String variables to store create table command
+        String CREATE_USER_TABLE = "CREATE TABLE " + DbInfo.USER_TABLE_NAME + "(" + DbInfo.USER_ID +
                 " INTEGER PRIMARY KEY AUTOINCREMENT," + DbInfo.USERNAME + " TEXT," +
                 DbInfo.PASSWORD + " TEXT)";
+        String CREATE_FOOD_TABLE = "CREATE TABLE " + DbInfo.FOOD_TABLE_NAME + "(" + DbInfo.FOOD_ID +
+                " INTEGER PRIMARY KEY AUTOINCREMENT," + DbInfo.FOOD_NAME + " TEXT," +
+                DbInfo.FOOD_DESC + " TEXT)";
 
-        // Execute the above command
+        // Execute the above commands
         db.execSQL(CREATE_USER_TABLE);
+        db.execSQL(CREATE_FOOD_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // String variable to store drop table command
-        String DROP_USER_TABLE = "DROP TABLE " + DbInfo.TABLE_NAME;
+        String DROP_TABLES = "DROP TABLE IF EXISTS " + DbInfo.DATABASE_NAME;
 
-        // Execute the above command to drop the table
-        db.execSQL(DROP_USER_TABLE);
+        // Execute the above command to drop the tables
+        db.execSQL(DROP_TABLES);
 
-        // Create a new table
+        // Create a new tables
         onCreate(db);
     }
 
@@ -49,7 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DbInfo.PASSWORD, user.getPassword());
 
         // Insert new record with values above then close SQLiteDatabase
-        long newRowId = db.insert(DbInfo.TABLE_NAME, null, values);
+        long newRowId = db.insert(DbInfo.USER_TABLE_NAME, null, values);
         db.close();
 
         // Return the new row id
@@ -60,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean fetchUser(User user) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(DbInfo.TABLE_NAME, new String[]{ DbInfo.USER_ID },
+        Cursor cursor = db.query(DbInfo.USER_TABLE_NAME, new String[]{ DbInfo.USER_ID },
                 DbInfo.USERNAME + "=? AND " + DbInfo.PASSWORD + "=?",
                 new String[]{ user.getUsername(), user.getPassword() }, null, null, null);
         int numberOfRows = cursor.getCount();   // Get the number of rows returned by the query above
