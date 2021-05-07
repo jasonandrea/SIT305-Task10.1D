@@ -11,9 +11,10 @@ import android.widget.Toast;
 
 import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.User;
+import com.example.foodrescueapp.util.Keys;
 
 public class LoginActivity extends AppCompatActivity {
-    DatabaseHelper db;
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +33,18 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
+                User user = new User(username, password);
 
                 if (username.equals("") || password.equals(""))
                     Toast.makeText(LoginActivity.this, "Please complete the form", Toast.LENGTH_SHORT).show();
                 else {
-                    if (db.fetchUser(new User(username, password))) {
+                    if (db.fetchUser(user)) {
                         Toast.makeText(LoginActivity.this, "logged in successfully", Toast.LENGTH_SHORT).show();
-                        // TODO: Take the user to the next activity in addition to the toast message
+
+                        // Start next activity (HomeActivity)
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        intent.putExtra(Keys.USER_ID_KEY, user.getUserId());
+                        startActivity(intent);
                     } else
                         Toast.makeText(LoginActivity.this, "Incorrect username/password", Toast.LENGTH_SHORT).show();
                 }

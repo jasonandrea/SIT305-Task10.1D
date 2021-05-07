@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:layout_marginTop="30dp"
-        android:text="@string/register_text"
+        android:text="@string/signup_title"
         android:textColor="#000000"
         android:textSize="34sp"
         android:textStyle="bold"
