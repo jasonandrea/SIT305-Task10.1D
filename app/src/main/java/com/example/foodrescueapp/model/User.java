@@ -6,8 +6,6 @@ public class User {
     private String username, password, email, phone, address;
 
     // Constructor
-    public User() {    }
-
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -40,16 +38,15 @@ public class User {
         return password;
     }
 
-    // Setters
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getAddress() {
+        return address;
     }
 }
