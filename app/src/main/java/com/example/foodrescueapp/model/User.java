@@ -20,6 +20,7 @@ public class User implements Parcelable {
         this.phone = phone;
         this.address = address;
         this.password = password;
+        this.foodList = "-1";   // -1 means empty list
     }
 
     public User(int id, String username, String email, String phone, String address, String password) {

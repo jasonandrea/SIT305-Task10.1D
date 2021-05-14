@@ -33,7 +33,7 @@ public class MyListActivity extends AppCompatActivity implements FoodsAdapter.On
         setContentView(R.layout.activity_my_list);
         DatabaseHelper db = new DatabaseHelper(this);
 
-        // Get intent and get user id from the intent
+        // Get intent and get user object from the intent
         intent = getIntent();
         user = intent.getParcelableExtra(Keys.USER_KEY);
 

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.Food;
 import com.example.foodrescueapp.model.User;
+import com.example.foodrescueapp.util.Keys;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,12 +35,17 @@ public class AddFoodActivity extends AppCompatActivity {
     private CalendarView date;
     private Bitmap image;
     private User user;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_food);
         db = new DatabaseHelper(this);
+
+        // Get intent and get user object from the intent
+        intent = getIntent();
+        user = intent.getParcelableExtra(Keys.USER_KEY);
 
         imagePreview = (ImageView)findViewById(R.id.previewImageView);
         name = findViewById(R.id.newFoodTitleEditText);
@@ -119,36 +125,38 @@ public class AddFoodActivity extends AppCompatActivity {
 
         // New bitmap variable that shows nothing. If user's bitmap matches with this bitmap,
         // that means the user has not selected an image yet
-
         try {
             int checkBitmapHeight = image.getHeight();
-
-            if (Arrays.asList(foodStrInfo).contains("")) // Check whether there is a blank EditText
-                Toast.makeText(AddFoodActivity.this, "Please complete the form", Toast.LENGTH_SHORT).show();
-            else {  // This will run if the form is complete (no blank EditText and no empty image)
-                // Insert new food with input details to the database
-                long newRowId = db.insertFood(new Food(
-                        image,
-                        foodStrInfo[0],
-                        foodStrInfo[1],
-                        foodStrInfo[2],
-                        foodStrInfo[3],
-                        foodStrInfo[4],
-                        foodStrInfo[5]
-                ), user);
-
-                // Check whether the insertion was successful
-                if (newRowId > 0) {
-                    Toast.makeText(AddFoodActivity.this, "Food added", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(AddFoodActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else Toast.makeText(AddFoodActivity.this, "Error: Failed to add food", Toast.LENGTH_SHORT).show();
-            }
         }
         catch (Exception e) {
             Toast.makeText(AddFoodActivity.this, "Please add an image of the food", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (Arrays.asList(foodStrInfo).contains("")) // Check whether there is a blank EditText
+            Toast.makeText(AddFoodActivity.this, "Please complete the form", Toast.LENGTH_SHORT).show();
+        else {
+            // This will run if the form is complete (no blank EditText and no empty image)
+            // Insert new food with input details to the database
+            long newRowId = db.insertFood(new Food(
+                    image,
+                    foodStrInfo[0],
+                    foodStrInfo[1],
+                    foodStrInfo[2],
+                    foodStrInfo[3],
+                    foodStrInfo[4],
+                    foodStrInfo[5]
+            ), user);
+
+            // Check whether the insertion was successful
+            if (newRowId > 0) {
+                Toast.makeText(AddFoodActivity.this, "Food added", Toast.LENGTH_SHORT).show();
+                Intent newIntent = new Intent(AddFoodActivity.this, HomeActivity.class);
+                newIntent.putExtra(Keys.USER_KEY, db.getUser(user.getUserId()));
+                startActivity(newIntent);
+                finish();
+            }
+            else Toast.makeText(AddFoodActivity.this, "Error: Failed to add food", Toast.LENGTH_SHORT).show();
         }
     }
 }

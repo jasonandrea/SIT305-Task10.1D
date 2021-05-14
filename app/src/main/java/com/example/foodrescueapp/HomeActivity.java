@@ -36,7 +36,7 @@ public class HomeActivity extends AppCompatActivity implements FoodsAdapter.OnFo
         // Get all foods from database and store it to food (list)
         foods = db.fetchAllFood();
 
-        // Get intent and get user id & food list from the intent
+        // Get intent and get user object from the intent
         intent = getIntent();
         user = intent.getParcelableExtra(Keys.USER_KEY);
 

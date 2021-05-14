@@ -99,24 +99,61 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return numberOfRows > 0;
     }
 
-    // Method to get an user object specified by id
-    public User getUser(String username, String password) {
+    // Method to get an user object specified by user id
+    public User getUser(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
+        String name, email, phone, address, pw, foodList;
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DbInfo.FOOD_TABLE_NAME + " WHERE " +
-                DbInfo.USERNAME + "=" + username + " AND " + DbInfo.PASSWORD + "=" + password, null);
+        // Query to get all fields where user id matches with input id (parameter)
+        Cursor cursor = db.query(DbInfo.USER_TABLE_NAME, null,
+                DbInfo.USER_ID + "=?", new String[]{ String.valueOf(id) },
+                null, null, null);
 
-        int id = cursor.getInt(cursor.getColumnIndex(DbInfo.USER_ID));
-        String name = cursor.getString(cursor.getColumnIndex(DbInfo.USERNAME));
-        String email = cursor.getString(cursor.getColumnIndex(DbInfo.USER_EMAIL));
-        String phone = cursor.getString(cursor.getColumnIndex(DbInfo.USER_PHONE));
-        String address = cursor.getString(cursor.getColumnIndex(DbInfo.USER_ADDRESS));
-        String pw = cursor.getString(cursor.getColumnIndex(DbInfo.PASSWORD));
-        String foodList = cursor.getString(cursor.getColumnIndex(DbInfo.USER_FOOD_LIST));
+        if (cursor.moveToFirst()) {
+            name = cursor.getString(cursor.getColumnIndex(DbInfo.USERNAME));
+            email = cursor.getString(cursor.getColumnIndex(DbInfo.USER_EMAIL));
+            phone = cursor.getString(cursor.getColumnIndex(DbInfo.USER_PHONE));
+            address = cursor.getString(cursor.getColumnIndex(DbInfo.USER_ADDRESS));
+            pw = cursor.getString(cursor.getColumnIndex(DbInfo.PASSWORD));
+            foodList = cursor.getString(cursor.getColumnIndex(DbInfo.USER_FOOD_LIST));
+        }
+        else throw new UnsupportedOperationException("Error DatabaseHelper.getUser(): User is not found");
 
+        // Close both database and cursor to free up memory/prevent memory leak
         db.close();
         cursor.close();
 
+        // Create new User object with all details then return it
+        return new User(id, name, email, phone, address, pw, foodList);
+    }
+
+    // Method to get an user object specified by username and password
+    public User getUser(String username, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int id;
+        String name, email, phone, address, pw, foodList;
+
+        // Query to get all fields where username and password match input passed to parameter
+        Cursor cursor = db.query(DbInfo.USER_TABLE_NAME, null,
+                DbInfo.USERNAME + "=? AND " + DbInfo.PASSWORD + "=?",
+                new String[]{ username, password }, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            id = cursor.getInt(cursor.getColumnIndex(DbInfo.USER_ID));
+            name = cursor.getString(cursor.getColumnIndex(DbInfo.USERNAME));
+            email = cursor.getString(cursor.getColumnIndex(DbInfo.USER_EMAIL));
+            phone = cursor.getString(cursor.getColumnIndex(DbInfo.USER_PHONE));
+            address = cursor.getString(cursor.getColumnIndex(DbInfo.USER_ADDRESS));
+            pw = cursor.getString(cursor.getColumnIndex(DbInfo.PASSWORD));
+            foodList = cursor.getString(cursor.getColumnIndex(DbInfo.USER_FOOD_LIST));
+        }
+        else throw new UnsupportedOperationException("Error DatabaseHelper.getUser(): User is not found");
+
+        // Close both database and cursor to free up memory/prevent memory leak
+        db.close();
+        cursor.close();
+
+        // Create new User object with all details then return it
         return new User(id, name, email, phone, address, pw, foodList);
     }
 
@@ -124,7 +161,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public long insertFood(Food food, User user){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues foodValues = new ContentValues();
-        ContentValues userValues = new ContentValues();
+        int foodId;
 
         // Put food name and description to ContentValues
         foodValues.put(DbInfo.FOOD_IMAGE, food.getImageBlob());
@@ -135,6 +172,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         foodValues.put(DbInfo.FOOD_QUANTITY, food.getQuantity());
         foodValues.put(DbInfo.FOOD_LOCATION, food.getLocation());
 
+        // Insert new record with foodValues above then close SQLiteDatabase
+        long newRowId = db.insert(DbInfo.FOOD_TABLE_NAME, null, foodValues);
+
+        // Add the new saved food to user's food list (add food id to user foodList)
+        Cursor cursor = db.query(DbInfo.FOOD_TABLE_NAME, new String[]{ DbInfo.FOOD_ID },
+                DbInfo.FOOD_ID + "=?", new String[]{ String.valueOf(newRowId) },
+                null, null, null);
+        if (cursor.moveToFirst()) foodId = cursor.getInt(cursor.getColumnIndex(DbInfo.FOOD_ID));
+        else throw new UnsupportedOperationException("Error while getting food id to be added to user food list");
+        db.close(); cursor.close(); // To free up some memory
+        insertToFoodList(user, foodId);
+
+        // Return the new row id
+        return newRowId;
+    }
+
+    // Method to add new food id to user's food list
+    public long insertToFoodList(User user, int foodId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues userValues = new ContentValues();
+        String newUserFoodList = user.getFoodList();
+
+        // Append added food id to user's food list
+        if (newUserFoodList.equals("-1")) newUserFoodList = String.valueOf(foodId);
+        else newUserFoodList = newUserFoodList + "," + foodId;
+
         // Update user's food list in the table
         userValues.put(DbInfo.USER_ID, user.getUserId());
         userValues.put(DbInfo.USERNAME, user.getUsername());
@@ -142,16 +205,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         userValues.put(DbInfo.USER_EMAIL, user.getEmail());
         userValues.put(DbInfo.USER_PHONE, user.getPhone());
         userValues.put(DbInfo.USER_ADDRESS, user.getAddress());
-        userValues.put(DbInfo.USER_FOOD_LIST, user.getFoodList());
+        userValues.put(DbInfo.USER_FOOD_LIST, newUserFoodList);
 
-        // Insert new record with foodValues and update user record with userValues above then close SQLiteDatabase
-        long newRowIdFood = db.insert(DbInfo.FOOD_TABLE_NAME, null, foodValues);
-        db.update(DbInfo.USER_TABLE_NAME, userValues, DbInfo.USER_ID + "=?",
+        // Update specific record with userValues above then close SQLiteDatabase
+        long newRowId = db.update(DbInfo.USER_TABLE_NAME, userValues, DbInfo.USER_ID + "=?",
                 new String[]{ String.valueOf(user.getUserId()) });
         db.close(); // To free up some memory
 
         // Return the new row id
-        return newRowIdFood;
+        return newRowId;
     }
 
     // Method to fetch all foods from the food table
@@ -200,9 +262,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String[] foodIdList = foodList.split(",");
         Cursor cursor = null;
 
-        /*if (foodList != "-1") foodIdList = foodList.split(",");
-        else foodIdList*/
-
         // Query to select all row in the table
         for (int i = 0; i < foodIdList.length; i++) {
             String GET_FOODS_QUERY = "SELECT * FROM " + DbInfo.FOOD_TABLE_NAME + " WHERE " +
@@ -211,31 +270,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             // Get and add each row to the list
             if (cursor.moveToFirst()) {
-                while (!cursor.isAfterLast()) {
-                    // Get food id, name and description from the table
-                    int id = cursor.getInt(cursor.getColumnIndex(DbInfo.FOOD_ID));
-                    byte[] imageBlob = cursor.getBlob(cursor.getColumnIndex(DbInfo.FOOD_IMAGE));
-                    String name = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_NAME));
-                    String desc = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_DESC));
-                    String date = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_DATE));
-                    String pickUpTimes = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_PICK_UP_TIMES));
-                    String quantity = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_QUANTITY));
-                    String location = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_LOCATION));
+                // Get food id, name and description from the table
+                int id = cursor.getInt(cursor.getColumnIndex(DbInfo.FOOD_ID));
+                byte[] imageBlob = cursor.getBlob(cursor.getColumnIndex(DbInfo.FOOD_IMAGE));
+                String name = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_NAME));
+                String desc = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_DESC));
+                String date = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_DATE));
+                String pickUpTimes = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_PICK_UP_TIMES));
+                String quantity = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_QUANTITY));
+                String location = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_LOCATION));
 
-                    // Convert image blob to Bitmap before creating new food object and adding it to list
-                    Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageBlob, 0, imageBlob.length);
+                // Convert image blob to Bitmap before creating new food object and adding it to list
+                Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageBlob, 0, imageBlob.length);
 
-                    // Create new Food object and add it to the list
-                    foods.add(new Food(id, imageBitmap, name, desc, date, pickUpTimes, quantity, location));
-
-                    cursor.moveToNext();
-                }
+                // Create new Food object and add it to the list
+                foods.add(new Food(id, imageBitmap, name, desc, date, pickUpTimes, quantity, location));
             }
         }
 
         // Free up memory by closing both SQLiteDatabase and Cursor
         cursor.close(); db.close();
 
+        // Return list of foods in the user food list
         return foods;
     }
 }
