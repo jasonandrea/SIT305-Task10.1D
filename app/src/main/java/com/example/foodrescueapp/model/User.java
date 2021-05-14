@@ -1,18 +1,15 @@
 package com.example.foodrescueapp.model;
 
-public class User {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class User implements Parcelable {
     // Instance variables
     private int userId;
-    private String username, password, email, phone, address;
+    private String username, password, email, phone, address, foodList;
 
     // Constructor
     public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
-    public User(int userId, String username, String password) {
-        this.userId = userId;
         this.username = username;
         this.password = password;
     }
@@ -25,28 +22,91 @@ public class User {
         this.password = password;
     }
 
+    public User(int id, String username, String email, String phone, String address, String password) {
+        this.userId = id;
+        this.username = username;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.password = password;
+        this.foodList = "-1";   // -1 means empty list
+    }
+
+    public User(int id, String username, String email, String phone, String address, String password, String foodList) {
+        this.userId = id;
+        this.username = username;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.password = password;
+        this.foodList = foodList;
+    }
+
     // Getters
     public int getUserId() {
-        return userId;
+        return this.userId;
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public String getPhone() {
-        return phone;
+        return this.phone;
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
+    }
+
+    public String getFoodList() {
+        return this.foodList;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // Parcelable stuff
+    protected User(Parcel in) {
+        userId = in.readInt();
+        username = in.readString();
+        password = in.readString();
+        email = in.readString();
+        phone = in.readString();
+        address = in.readString();
+        foodList = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(userId);
+        dest.writeString(username);
+        dest.writeString(password);
+        dest.writeString(email);
+        dest.writeString(phone);
+        dest.writeString(address);
+        dest.writeString(foodList);
     }
 }

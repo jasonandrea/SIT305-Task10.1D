@@ -38,12 +38,12 @@ public class LoginActivity extends AppCompatActivity {
                 if (username.equals("") || password.equals(""))
                     Toast.makeText(LoginActivity.this, "Please complete the form", Toast.LENGTH_SHORT).show();
                 else {
-                    if (db.fetchUser(user)) {
+                    if (db.checkLoginDetails(user)) {
                         Toast.makeText(LoginActivity.this, "logged in successfully", Toast.LENGTH_SHORT).show();
 
                         // Start next activity (HomeActivity)
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                        intent.putExtra(Keys.USER_ID_KEY, user.getUserId());
+                        intent.putExtra(Keys.USER_KEY, db.getUser(username, password));
                         startActivity(intent);
                     } else
                         Toast.makeText(LoginActivity.this, "Incorrect username/password", Toast.LENGTH_SHORT).show();

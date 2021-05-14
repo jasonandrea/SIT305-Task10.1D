@@ -5,11 +5,20 @@
     <string name="password_text">Password:</string>
     <string name="login_text">LOGIN</string>
     <string name="signup_text">SIGN UP</string>
+    <string name="save_text">SAVE</string>
+    <string name="add_image_text">Add image</string>
+    <string name="title_text">Title:</string>
+    <string name="desc_text">Description:</string>
+    <string name="date_text">Date:</string>
+    <string name="pick_up_times_text">Pick up times:</string>
+    <string name="quantity_text">Quantity:</string>
+    <string name="location_text">Location:</string>
 
     <!-- Screen title strings -->
     <string name="signup_title">Register Account</string>
     <string name="home_title">Discover free food</string>
     <string name="my_list_title">My list</string>
+    <string name="add_food_title">Add new food</string>
 
     <!-- Hints for EditText(s) -->
     <string name="username_hint">username</string>
@@ -19,4 +28,13 @@
     <string name="password_hint">password</string>
     <string name="confirm_password_hint">confirm password</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="food_title_hint">enter food name here</string>
+    <string name="food_desc_hint">enter food description here</string>
+    <string name="pick_up_times_hint">enter pick up times here</string>
+    <string name="quantity_hint">quantity here</string>
+    <string name="location_hint">enter location here</string>
+
+    <!-- Placeholder texts -->
+    <string name="food_title">Food title</string>
+    <string name="food_desc">Food description</string>
 </resources>

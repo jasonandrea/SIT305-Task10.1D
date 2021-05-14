@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".AddFoodActivity">
+
+    <ImageView
+        android:id="@+id/previewImageView"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:background="@drawable/border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.005"
+        tools:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <TextView
+        android:id="@+id/addImageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:clickable="true"
+        android:onClick="getImage"
+        android:text="@string/add_image_text"
+        android:textColor="#3F51B5"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/previewImageView" />
+
+    <TextView
+        android:id="@+id/newFoodTitleTextView"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="right"
+        android:text="@string/title_text"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addImageTextView" />
+
+    <TextView
+        android:id="@+id/newFoodDescTextView"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="right"
+        android:text="@string/desc_text"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newFoodTitleTextView" />
+
+    <EditText
+        android:id="@+id/newFoodTitleEditText"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border"
+        android:ems="10"
+        android:hint="@string/food_title_hint"
+        android:inputType="textPersonName"
+        android:textColor="#000000"
+        android:textColorHint="#8F8F8F"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/newFoodTitleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/addImageTextView" />
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="right"
+        android:text="@string/date_text"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newFoodDescTextView" />
+
+    <CalendarView
+        android:id="@+id/newFoodCalendarView"
+        android:layout_width="250dp"
+        android:layout_height="350dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:background="#2196F3"
+        app:layout_constraintStart_toEndOf="@+id/dateTextView"
+        app:layout_constraintTop_toBottomOf="@+id/newFoodDescEditText" />
+
+    <TextView
+        android:id="@+id/newFoodPickUpTimesTextView"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="right"
+        android:text="@string/pick_up_times_text"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newFoodCalendarView" />
+
+    <EditText
+        android:id="@+id/newFoodPickUpTimesEditText"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border"
+        android:ems="10"
+        android:hint="@string/pick_up_times_hint"
+        android:inputType="time"
+        android:textColor="#000000"
+        android:textColorHint="#8F8F8F"
+        android:textCursorDrawable="@drawable/border"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/newFoodPickUpTimesTextView"
+        app:layout_constraintTop_toBottomOf="@+id/newFoodCalendarView" />
+
+    <EditText
+        android:id="@+id/newFoodLocationEditText"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border"
+        android:ems="10"
+        android:hint="@string/location_hint"
+        android:inputType="textPersonName"
+        android:textColor="#000000"
+        android:textColorHint="#8F8F8F"
+        android:textCursorDrawable="@drawable/border"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/newFoodLocationTextView"
+        app:layout_constraintTop_toBottomOf="@+id/newFoodQuantityEditText" />
+
+    <EditText
+        android:id="@+id/newFoodQuantityEditText"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border"
+        android:ems="10"
+        android:hint="@string/quantity_hint"
+        android:inputType="number"
+        android:textColor="#000000"
+        android:textColorHint="#8F8F8F"
+        android:textCursorDrawable="@drawable/border"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/newFoodQuantityTextView"
+        app:layout_constraintTop_toBottomOf="@+id/newFoodPickUpTimesEditText" />
+
+    <TextView
+        android:id="@+id/newFoodQuantityTextView"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="right"
+        android:text="@string/quantity_text"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newFoodPickUpTimesTextView" />
+
+    <TextView
+        android:id="@+id/newFoodLocationTextView"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="right"
+        android:text="@string/location_text"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newFoodQuantityTextView" />
+
+    <Button
+        android:id="@+id/saveFoodButton"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#8A8A8A"
+        android:onClick="saveNewFood"
+        android:text="@string/save_text"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newFoodLocationEditText" />
+
+    <EditText
+        android:id="@+id/newFoodDescEditText"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border"
+        android:ems="10"
+        android:hint="@string/food_desc_hint"
+        android:inputType="textPersonName"
+        android:textColor="#000000"
+        android:textColorHint="#8F8F8F"
+        android:textCursorDrawable="@drawable/border"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/newFoodDescTextView"
+        app:layout_constraintTop_toBottomOf="@+id/newFoodTitleEditText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
