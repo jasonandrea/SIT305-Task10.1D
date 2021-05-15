@@ -79,6 +79,17 @@ public class AddFoodActivity extends AppCompatActivity {
         }
     }
 
+    // Method that will be called when pressing the back button on the phone
+    // This is to bring the user back to NoteListActivity when pressing back in ModifyNoteActivity
+    // Without this, the user will be brought back to MainActivity when pressing back button
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent homeIntent = new Intent(AddFoodActivity.this, HomeActivity.class);
+        startActivity(homeIntent);
+        finish();
+    }
+
     // Method that is called when clicking add image text. Gallery will open and the user
     // will be able to pick an image. Chosen image will be displayed in the activity
     public void getImage(View view) {

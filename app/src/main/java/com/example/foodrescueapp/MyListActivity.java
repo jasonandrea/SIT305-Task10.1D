@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.Food;
@@ -84,6 +83,17 @@ public class MyListActivity extends AppCompatActivity implements FoodsAdapter.On
                 throw new IllegalStateException("Unexpected value: " + item.getItemId());
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // Method that will be called when pressing the back button on the phone
+    // This is to bring the user back to NoteListActivity when pressing back in ModifyNoteActivity
+    // Without this, the user will be brought back to MainActivity when pressing back button
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent homeIntent = new Intent(MyListActivity.this, HomeActivity.class);
+        startActivity(homeIntent);
+        finish();
     }
 
     // onClick method that will be called on clicking myListAddFoodButton

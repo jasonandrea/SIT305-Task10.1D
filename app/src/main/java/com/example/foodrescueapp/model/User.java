@@ -4,9 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.Arrays;
-import java.util.List;
-
-import static java.util.Arrays.asList;
 
 public class User implements Parcelable {
     // Instance variables
