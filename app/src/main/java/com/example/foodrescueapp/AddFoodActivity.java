@@ -112,10 +112,10 @@ public class AddFoodActivity extends AppCompatActivity {
                 location.getText().toString()
         };
 
-        // New bitmap variable that shows nothing. If user's bitmap matches with this bitmap,
-        // that means the user has not selected an image yet
+        // When there is no image, calling getHeight() should throw an error. getHeight() is to check
+        // if there is an image selected.
         try {
-            int checkBitmapHeight = image.getHeight();
+            image.getHeight();
         }
         catch (Exception e) {
             Toast.makeText(AddFoodActivity.this, "Please add an image of the food", Toast.LENGTH_SHORT).show();

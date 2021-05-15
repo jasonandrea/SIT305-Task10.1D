@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,6 +53,7 @@ public class FoodsAdapter extends RecyclerView.Adapter<FoodsAdapter.ViewHolder>{
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Instance variables
         private ImageView thumbnail;
+        private ImageButton shareButton;
         private TextView foodTitle, foodDesc;
         private OnFoodListener listener;
 
@@ -61,14 +63,23 @@ public class FoodsAdapter extends RecyclerView.Adapter<FoodsAdapter.ViewHolder>{
             thumbnail = (ImageView)itemView.findViewById(R.id.foodImageView);
             foodTitle = itemView.findViewById(R.id.foodTitleTextView);
             foodDesc = itemView.findViewById(R.id.foodDescTextView);
+            shareButton = itemView.findViewById(R.id.shareIcon);
             this.listener = listener;
 
             itemView.setOnClickListener(this);
+
+            // onClickListener just for the share icon
+            shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onShareClick(getAdapterPosition());
+                }
+            });
         }
 
         // onClick method to detect clicks
         @Override
-        public void onClick(View v) {
+        public void onClick(View view) {
             listener.onFoodClick(getAdapterPosition());
         }
     }
@@ -76,5 +87,8 @@ public class FoodsAdapter extends RecyclerView.Adapter<FoodsAdapter.ViewHolder>{
     public interface OnFoodListener {
         // Use this method to send the position of the item when clicked
         void onFoodClick(int position);
+
+        // Use this method to send the position of the item when clicking share button
+        void onShareClick(int position);
     }
 }

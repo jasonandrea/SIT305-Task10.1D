@@ -5,21 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.accounts.Account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.Food;
 import com.example.foodrescueapp.model.User;
 import com.example.foodrescueapp.util.FoodsAdapter;
 import com.example.foodrescueapp.util.Keys;
+import com.example.foodrescueapp.util.ShareUtil;
 
-import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements FoodsAdapter.OnFoodListener {
@@ -90,6 +91,7 @@ public class HomeActivity extends AppCompatActivity implements FoodsAdapter.OnFo
         intent = new Intent(HomeActivity.this, AddFoodActivity.class);
         intent.putExtra(Keys.USER_KEY, user);
         startActivity(intent);  // Start new AddFoodActivity with the same user id passed to intent
+        finish();
     }
 
     // Method that is called on clicking an element of foods recycler view
@@ -114,5 +116,28 @@ public class HomeActivity extends AppCompatActivity implements FoodsAdapter.OnFo
 
         // Start the activity
         startActivity(newIntent);
+    }
+
+    public void onShareClick(int position) {
+        String SHARE_SUBJECT = ShareUtil.SHARE_SUBJECT + foods.get(position).getName();
+        String SHARE_TEXT = ShareUtil.getShareText(foods.get(position));
+
+        // Create new share intent
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, SHARE_SUBJECT);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, SHARE_TEXT);
+
+        // Start the share intent
+        startActivity(Intent.createChooser(shareIntent, "Share this food"));
+
+        // Add food to user's list, if the food is not there yet
+        String newUserFoodList = user.getFoodList();
+
+        // Append added food id to user's food list
+        // Will not save the food if there is already the same food saved in the list
+        if (user.insertFoodToList(foods.get(position).getId()))
+            Toast.makeText(HomeActivity.this, "Food saved to My List", Toast.LENGTH_SHORT).show();
+        else Toast.makeText(HomeActivity.this, "Food is already exist in your list", Toast.LENGTH_SHORT).show();
     }
 }

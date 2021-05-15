@@ -3,28 +3,23 @@ package com.example.foodrescueapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static java.util.Arrays.asList;
+
 public class User implements Parcelable {
     // Instance variables
     private int userId;
     private String username, password, email, phone, address, foodList;
 
-    // Constructor
+    // Constructors
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
     public User(String username, String email, String phone, String address, String password) {
-        this.username = username;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.password = password;
-        this.foodList = "-1";   // -1 means empty list
-    }
-
-    public User(int id, String username, String email, String phone, String address, String password) {
-        this.userId = id;
         this.username = username;
         this.email = email;
         this.phone = phone;
@@ -41,6 +36,22 @@ public class User implements Parcelable {
         this.address = address;
         this.password = password;
         this.foodList = foodList;
+    }
+
+    // Methods
+    public boolean insertFoodToList(int foodId) {
+        if (this.foodList.equals("-1")) {
+            this.foodList = String.valueOf(foodId);
+            return true;
+        }
+        else {
+            String[] arrayString= this.foodList.split(",");
+            if (!Arrays.asList(arrayString).contains(String.valueOf(foodId))) {
+                this.foodList = this.foodList + "," + foodId;
+                return true;
+            }
+            else return false;
+        }
     }
 
     // Getters

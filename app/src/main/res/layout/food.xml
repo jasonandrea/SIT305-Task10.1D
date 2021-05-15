@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFFFFF">
+    android:background="@drawable/border">
 
     <ImageView
         android:id="@+id/foodImageView"
@@ -20,26 +20,39 @@
 
     <TextView
         android:id="@+id/foodTitleTextView"
-        android:layout_width="230dp"
+        android:layout_width="215dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
         android:text="@string/food_title_ph"
         android:textColor="#000000"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/foodImageView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/foodDescTextView"
         android:layout_width="250dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="5dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="3dp"
         android:layout_marginTop="5dp"
         android:text="@string/food_desc_ph"
         android:textColor="#000000"
         app:layout_constraintStart_toEndOf="@+id/foodImageView"
         app:layout_constraintTop_toBottomOf="@+id/foodTitleTextView" />
+
+    <ImageButton
+        android:id="@+id/shareIcon"
+        android:layout_width="37dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="5dp"
+        android:backgroundTint="#FFFFFF"
+        android:foregroundTint="#000000"
+        android:onClick="shareClick"
+        android:tint="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_share" />
 </androidx.constraintlayout.widget.ConstraintLayout>

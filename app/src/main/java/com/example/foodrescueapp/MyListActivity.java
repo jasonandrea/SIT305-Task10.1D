@@ -11,13 +11,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.Food;
 import com.example.foodrescueapp.model.User;
 import com.example.foodrescueapp.util.FoodsAdapter;
 import com.example.foodrescueapp.util.Keys;
+import com.example.foodrescueapp.util.ShareUtil;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class MyListActivity extends AppCompatActivity implements FoodsAdapter.OnFoodListener {
@@ -112,5 +115,31 @@ public class MyListActivity extends AppCompatActivity implements FoodsAdapter.On
 
         // Start the activity
         startActivity(newIntent);
+    }
+
+    public void onShareClick(int position) {
+        String SHARE_SUBJECT = ShareUtil.SHARE_SUBJECT + foods.get(position).getName();
+        String SHARE_TEXT = ShareUtil.getShareText(foods.get(position));
+
+        // Create new share intent
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, SHARE_SUBJECT);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, SHARE_TEXT);
+
+        // Start the share intent
+        startActivity(Intent.createChooser(shareIntent, "Share this food"));
+
+        // Add food to user's list, if the food is not there yet
+        String newUserFoodList = user.getFoodList();
+
+        // Append added food id to user's food list
+        if (newUserFoodList.equals("-1")) newUserFoodList = String.valueOf(foods.get(position).getId());
+        else {
+            newUserFoodList = newUserFoodList + "," + foods.get(position).getId();
+            String[] arrayFoodList = newUserFoodList.split(",");
+            if (!Arrays.asList(arrayFoodList).contains(foods.get(position).getId()))
+                user.insertFoodToList(foods.get(position).getId());
+        }
     }
 }
