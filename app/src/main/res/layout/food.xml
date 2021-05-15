@@ -23,7 +23,7 @@
         android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:text="@string/food_title"
+        android:text="@string/food_title_ph"
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -38,7 +38,7 @@
         android:layout_height="65dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:text="@string/food_desc"
+        android:text="@string/food_desc_ph"
         android:textColor="#000000"
         app:layout_constraintStart_toEndOf="@+id/foodImageView"
         app:layout_constraintTop_toBottomOf="@+id/foodTitleTextView" />

@@ -72,12 +72,12 @@ public class User implements Parcelable {
         return this.foodList;
     }
 
+    // Parcelable stuff
     @Override
     public int describeContents() {
         return 0;
     }
 
-    // Parcelable stuff
     protected User(Parcel in) {
         userId = in.readInt();
         username = in.readString();

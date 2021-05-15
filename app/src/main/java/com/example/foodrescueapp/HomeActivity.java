@@ -19,6 +19,7 @@ import com.example.foodrescueapp.model.User;
 import com.example.foodrescueapp.util.FoodsAdapter;
 import com.example.foodrescueapp.util.Keys;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements FoodsAdapter.OnFoodListener {
@@ -85,8 +86,7 @@ public class HomeActivity extends AppCompatActivity implements FoodsAdapter.OnFo
     }
 
     // onClick method that will be called on clicking homeAddFoodButton
-    public void addFood(View view)
-    {
+    public void addFood(View view) {
         intent = new Intent(HomeActivity.this, AddFoodActivity.class);
         intent.putExtra(Keys.USER_KEY, user);
         startActivity(intent);  // Start new AddFoodActivity with the same user id passed to intent
@@ -95,6 +95,24 @@ public class HomeActivity extends AppCompatActivity implements FoodsAdapter.OnFo
     // Method that is called on clicking an element of foods recycler view
     @Override
     public void onFoodClick(int position) {
-        // TODO: Start AddFoodActivity maybe
+        Intent newIntent = new Intent(HomeActivity.this, FoodDetailsActivity.class);
+
+        // Food object has bitmap field. Passing a bitmap to a parcelable will cause JAVA BINDER FAILURE
+        byte[] imageBlob = foods.get(position).getImageBlob();
+        String[] foodDetails = new String[] {
+            foods.get(position).getName(),
+            foods.get(position).getDesc(),
+            foods.get(position).getDate(),
+            foods.get(position).getPickUpTimes(),
+            foods.get(position).getQuantity(),
+            foods.get(position).getLocation()
+        };
+
+        // Pass image blob and other details to intent
+        newIntent.putExtra(Keys.FOOD_IMAGE_BLOB, imageBlob);
+        newIntent.putExtra(Keys.FOOD_STRING_DETAILS, foodDetails);
+
+        // Start the activity
+        startActivity(newIntent);
     }
 }

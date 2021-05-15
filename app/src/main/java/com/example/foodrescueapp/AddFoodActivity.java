@@ -62,24 +62,17 @@ public class AddFoodActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             // This will run if everything is running as expected/successfully
             if (requestCode == IMAGE_GALLERY_REQUEST){
-                // This will run if we are hearing back from the image gallery
                 Uri imageUri = data.getData();  // The address of the image
-
-                // Declare a stream to read the image from specified address
                 InputStream inputStream;
 
-                // Getting an input stream based on the Uri of the image
                 try {
                     inputStream = getContentResolver().openInputStream(imageUri);
-
-                    // Get bitmap from the stream
                     image = BitmapFactory.decodeStream(inputStream);
 
                     // Change the ImageView to the bitmap
                     imagePreview.setImageBitmap(image);
                 }
                 catch (FileNotFoundException e) {
-                    e.printStackTrace();
                     Toast.makeText(AddFoodActivity.this, "File is not found", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -91,12 +84,8 @@ public class AddFoodActivity extends AppCompatActivity {
     public void getImage(View view) {
         // Implicit intent
         Intent pickPhotoIntent = new Intent(Intent.ACTION_PICK);
-
-        // The type of file the app will be getting and the path
         File pictureDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         String path = pictureDir.getPath();
-
-        // Get the Uri type of file path
         Uri data = Uri.parse(path);
         
         // Set the data and type
