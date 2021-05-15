@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.accounts.Account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -59,18 +60,22 @@ public class HomeActivity extends AppCompatActivity implements FoodsAdapter.OnFo
         // Do actions based on the option chosen by the user
         switch (item.getItemId()) {
             case R.id.homeOption: // "Home" option chosen
-                intent = new Intent(HomeActivity.this, HomeActivity.class);
-                intent.putExtra(Keys.USER_KEY, user);   // Pass user object to intent
-                startActivity(intent);   // Start new HomeActivity with same user id passed to intent
-                finish();                // Finish current activity
+                Intent newHomeIntent = new Intent(HomeActivity.this, HomeActivity.class);
+                newHomeIntent.putExtra(Keys.USER_KEY, user);   // Pass user object to intent
+                startActivity(newHomeIntent);   // Start new HomeActivity with same user passed to intent
+                finish();                       // Finish current activity
                 break;
             case R.id.accountOption: // "Account" option chosen
+                Intent newAccountIntent = new Intent(HomeActivity.this, AccountActivity.class);
+                newAccountIntent.putExtra(Keys.USER_KEY, user);   // Pass user object to intent
+                startActivity(newAccountIntent);    // Start new HomeActivity with same user passed to intent
+                finish();                           // Finish current activity
                 break;
             case R.id.myListOption: // "My list" option chosen
-                intent = new Intent(HomeActivity.this, MyListActivity.class);
-                intent.putExtra(Keys.USER_KEY, user);   // Pass user object to intent
-                startActivity(intent);  // Start new HomeActivity with same user id passed to intent
-                finish();               // Finish current activity
+                Intent newMyListIntent = new Intent(HomeActivity.this, MyListActivity.class);
+                newMyListIntent.putExtra(Keys.USER_KEY, user);   // Pass user object to intent
+                startActivity(newMyListIntent);  // Start new HomeActivity with same user passed to intent
+                finish();                       // Finish current activity
                 break;
             default:
                 // This branch should only run when something unexpected is happening

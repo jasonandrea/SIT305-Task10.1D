@@ -3,6 +3,13 @@
     <string name="app_name">Food Rescue App</string>
     <string name="username_text">Username:</string>
     <string name="password_text">Password:</string>
+    <string name="email_text">Email:</string>
+    <string name="phone_text">Phone:</string>
+    <string name="address_text">Address:</string>
+    <string name="change_details_text">Save details</string>
+    <string name="change_password_text">Change password</string>
+    <string name="new_password_text">New password:</string>
+    <string name="current_password_text">Current password:</string>
     <string name="login_text">LOGIN</string>
     <string name="signup_text">SIGN UP</string>
     <string name="save_text">SAVE</string>
@@ -15,10 +22,11 @@
     <string name="location_text">Location:</string>
 
     <!-- Screen title strings -->
-    <string name="signup_title">Register Account</string>
+    <string name="signup_title">Register account</string>
     <string name="home_title">Discover free food</string>
     <string name="my_list_title">My list</string>
     <string name="add_food_title">Add new food</string>
+    <string name="account_title">My account</string>
 
     <!-- Hints for EditText(s) -->
     <string name="username_hint">username</string>

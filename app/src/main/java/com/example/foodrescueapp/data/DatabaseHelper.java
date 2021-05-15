@@ -157,6 +157,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return new User(id, name, email, phone, address, pw, foodList);
     }
 
+    // Method to update user details
+    public boolean updateUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues userValues = new ContentValues();
+
+        // Put all values to userValues ContentValues
+        userValues.put(DbInfo.USER_ID, user.getUserId());
+        userValues.put(DbInfo.USERNAME, user.getUsername());
+        userValues.put(DbInfo.PASSWORD, user.getPassword());
+        userValues.put(DbInfo.USER_EMAIL, user.getEmail());
+        userValues.put(DbInfo.USER_PHONE, user.getPhone());
+        userValues.put(DbInfo.USER_ADDRESS, user.getAddress());
+        userValues.put(DbInfo.USER_FOOD_LIST, user.getFoodList());
+
+        // Update specific record with userValues above then close SQLiteDatabase
+        long rowsAffected = db.update(DbInfo.USER_TABLE_NAME, userValues, DbInfo.USER_ID + "=?",
+                new String[]{ String.valueOf(user.getUserId()) });
+        db.close(); // To free up some memory
+
+        // Return true if there is rows affected
+        return rowsAffected > 0;
+    }
+
     // Method to add a new record to the food table (new food) and add to the user's list
     public long insertFood(Food food, User user){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -198,7 +221,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (newUserFoodList.equals("-1")) newUserFoodList = String.valueOf(foodId);
         else newUserFoodList = newUserFoodList + "," + foodId;
 
-        // Update user's food list in the table
+        // Put all values to userValues ContentValues
         userValues.put(DbInfo.USER_ID, user.getUserId());
         userValues.put(DbInfo.USERNAME, user.getUsername());
         userValues.put(DbInfo.PASSWORD, user.getPassword());
@@ -208,12 +231,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         userValues.put(DbInfo.USER_FOOD_LIST, newUserFoodList);
 
         // Update specific record with userValues above then close SQLiteDatabase
-        long newRowId = db.update(DbInfo.USER_TABLE_NAME, userValues, DbInfo.USER_ID + "=?",
+        long rowsAffected = db.update(DbInfo.USER_TABLE_NAME, userValues, DbInfo.USER_ID + "=?",
                 new String[]{ String.valueOf(user.getUserId()) });
         db.close(); // To free up some memory
 
-        // Return the new row id
-        return newRowId;
+        // Return the number of rows affected after updating the table
+        return rowsAffected;
     }
 
     // Method to fetch all foods from the food table
