@@ -125,6 +125,44 @@ public class AccountActivity extends AppCompatActivity {
 
     // onClick method that will be called on clicking changePasswordButton to change user password
     public void changePassword(View view) {
+        // Variable that stores the id of current user
+        int id = user.getUserId();
 
+        // Array containing all user info (username, email, etc...) without id because id is integer
+        String[] userInfo = new String[] {
+                user.getUsername(),                 // Everything except password is not going to change
+                user.getEmail(),
+                user.getPhone(),
+                user.getAddress(),
+                newPassword.getText().toString(),   // Only password is going to change based on user input
+                user.getFoodList()
+        };
+
+        // Check if new password is blank (userInfo[4] is new password)
+        if (userInfo[4].equals(""))
+            Toast.makeText(AccountActivity.this, "Please enter the new password", Toast.LENGTH_SHORT).show();
+        // Check if the old password matches with the password stored in the user table
+        else if (!oldPassword.getText().toString().equals(user.getPassword()))
+            Toast.makeText(AccountActivity.this, "Incorrect current/old password", Toast.LENGTH_SHORT).show();
+        // If the code made it here, that means new password is not blank and old password is correct
+        else {
+            // Create new User object that has new details. This will be passed to parameter later
+            User newUser = new User(
+                    id,             // User id
+                    userInfo[0],    // Username
+                    userInfo[1],    // Email
+                    userInfo[2],    // Phone
+                    userInfo[3],    // Address
+                    userInfo[4],    // Password
+                    userInfo[5]     // Food list
+            );
+
+            // Check whether the update was successful
+            if (db.updateUser(newUser)) {
+                Toast.makeText(AccountActivity.this, "Password changed", Toast.LENGTH_SHORT).show();
+                finish();   // Close current activity
+            }
+            else Toast.makeText(AccountActivity.this, "Error: failed to change password", Toast.LENGTH_SHORT).show();
+        }
     }
 }
