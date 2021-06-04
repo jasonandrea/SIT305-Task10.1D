@@ -3,6 +3,7 @@ package com.example.foodrescueapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.accounts.Account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -88,6 +89,18 @@ public class AccountActivity extends AppCompatActivity {
                 throw new IllegalStateException("Unexpected value: " + item.getItemId());
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // Method that will be called when pressing the back button on the phone
+    // This is to bring the user back to NoteListActivity when pressing back in ModifyNoteActivity
+    // Without this, the user will be brought back to MainActivity when pressing back button
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent homeIntent = new Intent(AccountActivity.this, HomeActivity.class);
+        homeIntent.putExtra(Keys.USER_KEY, user);
+        startActivity(homeIntent);
+        finish();
     }
 
     // onClick method that will be called on clicking saveDetailsButton to change user details

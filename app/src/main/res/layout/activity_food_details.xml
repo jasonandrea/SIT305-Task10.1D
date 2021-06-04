@@ -26,8 +26,8 @@
 
         <ImageView
             android:id="@+id/detailsImageView"
-            android:layout_width="300dp"
-            android:layout_height="200dp"
+            android:layout_width="250dp"
+            android:layout_height="150dp"
             android:layout_marginTop="10dp"
             tools:srcCompat="@tools:sample/avatars" />
 
@@ -114,15 +114,30 @@
             android:textColor="#000000" />
 
         <Button
-            android:id="@+id/detailsOkButton"
-            android:layout_width="200dp"
+            android:id="@+id/addToCartButton"
+            android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="#8A8A8A"
-            android:onClick="goBack"
-            android:text="@string/ok_text"
+            android:onClick="addToCart"
+            android:text="@string/add_to_cart_text"
             android:textColor="#000000"
             android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/buyNowButton"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:backgroundTint="#2196F3"
+            android:onClick="buyNow"
+            android:text="@string/pay_now_text" />
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

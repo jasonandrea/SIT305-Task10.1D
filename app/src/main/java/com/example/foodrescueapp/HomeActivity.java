@@ -113,12 +113,14 @@ public class HomeActivity extends AppCompatActivity implements FoodsAdapter.OnFo
             foods.get(position).getDate(),
             foods.get(position).getPickUpTimes(),
             foods.get(position).getQuantity(),
-            foods.get(position).getLocation()
+            foods.get(position).getLocation(),
         };
 
         // Pass image blob and other details to intent
+        newIntent.putExtra(Keys.FOOD_ID_KEY, foods.get(position).getId());
         newIntent.putExtra(Keys.FOOD_IMAGE_BLOB, imageBlob);
         newIntent.putExtra(Keys.FOOD_STRING_DETAILS, foodDetails);
+        newIntent.putExtra(Keys.USER_KEY, user);
 
         // Start the activity
         startActivity(newIntent);

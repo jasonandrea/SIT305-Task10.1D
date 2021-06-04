@@ -93,6 +93,10 @@ public class User implements Parcelable {
         return this.cart;
     }
 
+    public void setCart(String cart) {
+        this.cart = cart;
+    }
+
     // Parcelable stuff
     @Override
     public int describeContents() {

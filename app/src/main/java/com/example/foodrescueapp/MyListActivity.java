@@ -98,6 +98,7 @@ public class MyListActivity extends AppCompatActivity implements FoodsAdapter.On
     public void onBackPressed() {
         super.onBackPressed();
         Intent homeIntent = new Intent(MyListActivity.this, HomeActivity.class);
+        homeIntent.putExtra(Keys.USER_KEY, user);
         startActivity(homeIntent);
         finish();
     }
@@ -126,8 +127,10 @@ public class MyListActivity extends AppCompatActivity implements FoodsAdapter.On
         };
 
         // Pass image blob and other details to intent
+        newIntent.putExtra(Keys.FOOD_ID_KEY, foods.get(position).getId());
         newIntent.putExtra(Keys.FOOD_IMAGE_BLOB, imageBlob);
         newIntent.putExtra(Keys.FOOD_STRING_DETAILS, foodDetails);
+        newIntent.putExtra(Keys.USER_KEY, user);
 
         // Start the activity
         startActivity(newIntent);

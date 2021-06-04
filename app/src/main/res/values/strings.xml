@@ -23,6 +23,9 @@
     <string name="ok_text">OK</string>
     <string name="add_to_cart_text">ADD TO CART</string>
     <string name="total_text">Total:</string>
+    <string name="transaction_finish_text">Transaction finished</string>
+    <string name="pay_now_text">PAY WITH PAYPAL</string>
+    <string name="clear_cart_text">CLEAR CART</string>
 
     <!-- Screen title strings -->
     <string name="signup_title">Register account</string>
@@ -30,6 +33,7 @@
     <string name="my_list_title">My list</string>
     <string name="add_food_title">Add new food</string>
     <string name="account_title">My account</string>
+    <string name="cart_title">Cart</string>
 
     <!-- Hints for EditText(s) -->
     <string name="username_hint">username</string>
@@ -52,5 +56,5 @@
     <string name="pick_up_times_ph">00:00</string>
     <string name="quantity_ph">999</string>
     <string name="location_ph">Australia</string>
-    <string name="price_ph">$ 99</string>
+    <string name="price_ph">$ 9.99</string>
 </resources>

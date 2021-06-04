@@ -237,6 +237,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         userValues.put(DbInfo.USER_PHONE, user.getPhone());
         userValues.put(DbInfo.USER_ADDRESS, user.getAddress());
         userValues.put(DbInfo.USER_FOOD_LIST, newUserFoodList);
+        userValues.put(DbInfo.USER_CART, user.getCart());
 
         // Update specific record with userValues above then close SQLiteDatabase
         long rowsAffected = db.update(DbInfo.USER_TABLE_NAME, userValues, DbInfo.USER_ID + "=?",
@@ -264,7 +265,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         userValues.put(DbInfo.USER_EMAIL, user.getEmail());
         userValues.put(DbInfo.USER_PHONE, user.getPhone());
         userValues.put(DbInfo.USER_ADDRESS, user.getAddress());
-        userValues.put(DbInfo.USER_FOOD_LIST, newCart);
+        userValues.put(DbInfo.USER_FOOD_LIST, user.getFoodList());
+        userValues.put(DbInfo.USER_CART, newCart);
 
         // Update specific record with userValues above then close SQLiteDatabase
         long rowsAffected = db.update(DbInfo.USER_TABLE_NAME, userValues, DbInfo.USER_ID + "=?",

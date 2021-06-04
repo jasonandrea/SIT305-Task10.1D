@@ -86,6 +86,7 @@ public class AddFoodActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Intent homeIntent = new Intent(AddFoodActivity.this, HomeActivity.class);
+        homeIntent.putExtra(Keys.USER_KEY, user);
         startActivity(homeIntent);
         finish();
     }
