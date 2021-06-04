@@ -21,6 +21,8 @@
     <string name="quantity_text">Quantity:</string>
     <string name="location_text">Location:</string>
     <string name="ok_text">OK</string>
+    <string name="add_to_cart_text">ADD TO CART</string>
+    <string name="total_text">Total:</string>
 
     <!-- Screen title strings -->
     <string name="signup_title">Register account</string>
@@ -40,7 +42,7 @@
     <string name="food_title_hint">enter food name here</string>
     <string name="food_desc_hint">enter food description here</string>
     <string name="pick_up_times_hint">enter pick up times here</string>
-    <string name="quantity_hint">quantity here</string>
+    <string name="quantity_hint">quantity</string>
     <string name="location_hint">enter location here</string>
 
     <!-- Placeholder texts -->
@@ -50,4 +52,5 @@
     <string name="pick_up_times_ph">00:00</string>
     <string name="quantity_ph">999</string>
     <string name="location_ph">Australia</string>
+    <string name="price_ph">$ 99</string>
 </resources>

@@ -26,4 +26,5 @@ public class DbInfo {
     public static final String FOOD_PICK_UP_TIMES = "pick_up_times";
     public static final String FOOD_QUANTITY = "quantity";
     public static final String FOOD_LOCATION = "location";
+    public static final String FOOD_PRICE = "price";
 }
