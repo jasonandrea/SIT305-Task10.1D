@@ -177,6 +177,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         userValues.put(DbInfo.USER_PHONE, user.getPhone());
         userValues.put(DbInfo.USER_ADDRESS, user.getAddress());
         userValues.put(DbInfo.USER_FOOD_LIST, user.getFoodList());
+        // TODO: Add cart
 
         // Update specific record with userValues above then close SQLiteDatabase
         long rowsAffected = db.update(DbInfo.USER_TABLE_NAME, userValues, DbInfo.USER_ID + "=?",

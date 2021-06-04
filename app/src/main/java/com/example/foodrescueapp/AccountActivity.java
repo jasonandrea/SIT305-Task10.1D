@@ -77,6 +77,12 @@ public class AccountActivity extends AppCompatActivity {
                 startActivity(newMyListIntent);  // Start new HomeActivity with same user passed to intent
                 finish();                       // Finish current activity
                 break;
+            case R.id.cartOption: // "Cart" option chosen
+                Intent newCartIntent = new Intent(AccountActivity.this, CartActivity.class);
+                newCartIntent.putExtra(Keys.USER_KEY, user);    // Pass user object to intent
+                startActivity(newCartIntent);   // Start new CartActivity with same user passed to intent
+                finish();                       // Finish current activity
+                break;
             default:
                 // This branch should only run when something unexpected is happening
                 throw new IllegalStateException("Unexpected value: " + item.getItemId());

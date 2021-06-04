@@ -70,13 +70,19 @@ public class HomeActivity extends AppCompatActivity implements FoodsAdapter.OnFo
             case R.id.accountOption: // "Account" option chosen
                 Intent newAccountIntent = new Intent(HomeActivity.this, AccountActivity.class);
                 newAccountIntent.putExtra(Keys.USER_KEY, user);   // Pass user object to intent
-                startActivity(newAccountIntent);    // Start new HomeActivity with same user passed to intent
+                startActivity(newAccountIntent);    // Start new AccountActivity with same user passed to intent
                 finish();                           // Finish current activity
                 break;
             case R.id.myListOption: // "My list" option chosen
                 Intent newMyListIntent = new Intent(HomeActivity.this, MyListActivity.class);
                 newMyListIntent.putExtra(Keys.USER_KEY, user);   // Pass user object to intent
-                startActivity(newMyListIntent);  // Start new HomeActivity with same user passed to intent
+                startActivity(newMyListIntent);  // Start new MyListActivity with same user passed to intent
+                finish();                       // Finish current activity
+                break;
+            case R.id.cartOption: // "Cart" option chosen
+                Intent newCartIntent = new Intent(HomeActivity.this, CartActivity.class);
+                newCartIntent.putExtra(Keys.USER_KEY, user);    // Pass user object to intent
+                startActivity(newCartIntent);   // Start new CartActivity with same user passed to intent
                 finish();                       // Finish current activity
                 break;
             default:

@@ -107,6 +107,7 @@ public class User implements Parcelable {
         phone = in.readString();
         address = in.readString();
         foodList = in.readString();
+        cart = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -130,5 +131,6 @@ public class User implements Parcelable {
         dest.writeString(phone);
         dest.writeString(address);
         dest.writeString(foodList);
+        dest.writeString(cart);
     }
 }

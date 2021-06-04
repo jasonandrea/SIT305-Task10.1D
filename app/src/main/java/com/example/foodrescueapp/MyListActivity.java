@@ -69,13 +69,19 @@ public class MyListActivity extends AppCompatActivity implements FoodsAdapter.On
             case R.id.accountOption: // "Account" option chosen
                 Intent newAccountIntent = new Intent(MyListActivity.this, AccountActivity.class);
                 newAccountIntent.putExtra(Keys.USER_KEY, user);   // Pass user object to intent
-                startActivity(newAccountIntent);    // Start new HomeActivity with same user passed to intent
+                startActivity(newAccountIntent);    // Start new AccountActivity with same user passed to intent
                 finish();                           // Finish current activity
                 break;
             case R.id.myListOption: // "My list" option chosen
                 Intent newMyListIntent = new Intent(MyListActivity.this, MyListActivity.class);
                 newMyListIntent.putExtra(Keys.USER_KEY, user);   // Pass user object to intent
-                startActivity(newMyListIntent);  // Start new HomeActivity with same user passed to intent
+                startActivity(newMyListIntent);  // Start new MyListActivity with same user passed to intent
+                finish();                        // Finish current activity
+                break;
+            case R.id.cartOption: // "Cart" option chosen
+                Intent newCartIntent = new Intent(MyListActivity.this, CartActivity.class);
+                newCartIntent.putExtra(Keys.USER_KEY, user);    // Pass user object to intent
+                startActivity(newCartIntent);   // Start new CartActivity with same user passed to intent
                 finish();                       // Finish current activity
                 break;
             default:
@@ -86,8 +92,8 @@ public class MyListActivity extends AppCompatActivity implements FoodsAdapter.On
     }
 
     // Method that will be called when pressing the back button on the phone
-    // This is to bring the user back to NoteListActivity when pressing back in ModifyNoteActivity
-    // Without this, the user will be brought back to MainActivity when pressing back button
+    // This is to bring the user back to HomeActivity when pressing back in MyListActivity
+    // Without this, the user will be brought back to LoginActivity when pressing back button
     @Override
     public void onBackPressed() {
         super.onBackPressed();
