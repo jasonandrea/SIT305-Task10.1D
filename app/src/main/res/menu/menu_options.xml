@@ -13,4 +13,8 @@
         android:id="@+id/myListOption"
         android:title="My list"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/cartOption"
+        android:title="Cart"
+        app:showAsAction="never" />
 </menu>

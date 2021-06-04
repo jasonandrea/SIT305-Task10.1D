@@ -15,6 +15,7 @@ public class DbInfo {
     public static final String USER_PHONE = "phone";
     public static final String USER_ADDRESS = "address";
     public static final String USER_FOOD_LIST = "food_list";
+    public static final String USER_CART = "saved_cart";
 
     // Table fields info for "foods" table
     public static final String FOOD_ID = "food_id";

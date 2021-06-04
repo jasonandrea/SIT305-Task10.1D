@@ -96,7 +96,8 @@ public class AccountActivity extends AppCompatActivity {
                 phone.getText().toString(),
                 address.getText().toString(),
                 user.getPassword(),             // Password is not going to be changed
-                user.getFoodList()              // FoodList is not going to be changed
+                user.getFoodList(),             // FoodList is not going to be changed
+                user.getCart()                  // Cart is not going to be changed
         };
 
         // Check whether there is a blank EditText
@@ -111,7 +112,8 @@ public class AccountActivity extends AppCompatActivity {
                     userInfo[2],    // Phone
                     userInfo[3],    // Address
                     userInfo[4],    // Password
-                    userInfo[5]     // Food list
+                    userInfo[5],    // Food list
+                    userInfo[6]     // Cart
             );
 
             // Check whether the update was successful
@@ -135,7 +137,8 @@ public class AccountActivity extends AppCompatActivity {
                 user.getPhone(),
                 user.getAddress(),
                 newPassword.getText().toString(),   // Only password is going to change based on user input
-                user.getFoodList()
+                user.getFoodList(),
+                user.getCart()
         };
 
         // Check if new password is blank (userInfo[4] is new password)
@@ -154,7 +157,8 @@ public class AccountActivity extends AppCompatActivity {
                     userInfo[2],    // Phone
                     userInfo[3],    // Address
                     userInfo[4],    // Password
-                    userInfo[5]     // Food list
+                    userInfo[5],    // Food list
+                    userInfo[6]     // Cart
             );
 
             // Check whether the update was successful

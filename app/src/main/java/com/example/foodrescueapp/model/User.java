@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class User implements Parcelable {
     // Instance variables
     private int userId;
-    private String username, password, email, phone, address, foodList;
+    private String username, password, email, phone, address, foodList, cart;
 
     // Constructors
     public User(String username, String password) {
@@ -22,10 +22,18 @@ public class User implements Parcelable {
         this.phone = phone;
         this.address = address;
         this.password = password;
-        this.foodList = "-1";   // -1 means empty list
+
+        /**
+         * As this constructor does not specify user's food list and cart,
+         * This constructor will assign "-1" string to the user's food list and cart.
+         * "-1" in the list means it is empty. When a new food is added to the food list or cart,
+         * "-1" will be replaced with the food id.
+         */
+        this.foodList = "-1";
+        this.cart = "-1";
     }
 
-    public User(int id, String username, String email, String phone, String address, String password, String foodList) {
+    public User(int id, String username, String email, String phone, String address, String password, String foodList, String cart) {
         this.userId = id;
         this.username = username;
         this.email = email;
@@ -33,6 +41,7 @@ public class User implements Parcelable {
         this.address = address;
         this.password = password;
         this.foodList = foodList;
+        this.cart = cart;
     }
 
     // Methods
@@ -78,6 +87,10 @@ public class User implements Parcelable {
 
     public String getFoodList() {
         return this.foodList;
+    }
+
+    public String getCart() {
+        return this.cart;
     }
 
     // Parcelable stuff
