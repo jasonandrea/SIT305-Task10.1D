@@ -9,6 +9,7 @@ public class Food {
     private int id;
     private String name, desc, pickUpTimes, quantity, location, date;
     private Bitmap image;
+    private double lat, lng; // For storing location data, lat is latitude and lng is longitude
 
     // Constructors
     public Food(int id, Bitmap image, String name, String description, String date,
@@ -73,5 +74,13 @@ public class Food {
 
     public String getLocation() {
         return this.location;
+    }
+
+    public double getLat() {
+        return this.lat;
+    }
+
+    public double getLng() {
+        return this.lng;
     }
 }

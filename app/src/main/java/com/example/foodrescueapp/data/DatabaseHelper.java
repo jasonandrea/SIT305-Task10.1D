@@ -48,7 +48,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 DbInfo.FOOD_DATE + " TEXT," +
                 DbInfo.FOOD_PICK_UP_TIMES + " TEXT," +
                 DbInfo.FOOD_QUANTITY + " TEXT," +
-                DbInfo.FOOD_LOCATION + " TEXT)";
+                DbInfo.FOOD_LOCATION + " TEXT," +
+                DbInfo.FOOD_LAT + " REAL," +
+                DbInfo.FOOD_LNG + " REAL)";
 
         // Execute the above commands
         db.execSQL(CREATE_USER_TABLE);
