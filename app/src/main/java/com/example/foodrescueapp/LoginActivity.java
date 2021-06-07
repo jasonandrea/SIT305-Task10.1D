@@ -60,4 +60,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Method that will be called when pressing the back button on the phone
+    // This is to make sure than pressing back in the login screen will close the app
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent quitIntent = new Intent(Intent.ACTION_MAIN);
+        quitIntent.addCategory(Intent.CATEGORY_HOME);
+        quitIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(quitIntent);
+    }
 }

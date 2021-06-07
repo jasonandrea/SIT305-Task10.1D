@@ -19,5 +19,6 @@ public class Keys {
     public static final String FOOD_KEY = "food_key";
     public static final String FOOD_IMAGE_BLOB = "food_image_blob";
     public static final String FOOD_STRING_DETAILS = "food_string_details";
+    public static final String FOOD_LAT_LNG_DETAILS = "food_lat_lng_details";
     public static final String FOOD_ID_KEY = "food_id_key";
 }

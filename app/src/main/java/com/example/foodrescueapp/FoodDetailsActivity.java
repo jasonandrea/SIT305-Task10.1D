@@ -2,6 +2,8 @@ package com.example.foodrescueapp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,12 +30,13 @@ import java.math.BigDecimal;
 
 public class FoodDetailsActivity extends AppCompatActivity {
     // Constants
-    public static final int PAYPAL_REQUEST_CODE = 23415;
+    public static final int PAYPAL_REQUEST_CODE = 234;
     private static final double PRICE_PER_FOOD = 9.99;
 
     private Intent intent;
     private User user;
     private Food food;
+    private double[] foodLatLng;
 
     // Declaring and initialising immediately PayPalConfiguration
     private static PayPalConfiguration ppConfig = new PayPalConfiguration()
@@ -49,17 +52,20 @@ public class FoodDetailsActivity extends AppCompatActivity {
         user = intent.getParcelableExtra(Keys.USER_KEY);
         byte[] imageBlob = intent.getByteArrayExtra(Keys.FOOD_IMAGE_BLOB);
         String[] foodStringDetails = intent.getStringArrayExtra(Keys.FOOD_STRING_DETAILS);
+        foodLatLng = intent.getDoubleArrayExtra(Keys.FOOD_LAT_LNG_DETAILS);
 
         // Convert imageBlob to bitmap then finally create food object
         Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageBlob, 0, imageBlob.length);
         food = new Food(
-                imageBitmap,
-                foodStringDetails[0],
-                foodStringDetails[1],
-                foodStringDetails[2],
-                foodStringDetails[3],
-                foodStringDetails[4],
-                foodStringDetails[5]
+                imageBitmap,            // Image
+                foodStringDetails[0],   // Name
+                foodStringDetails[1],   // Desc
+                foodStringDetails[2],   // Date
+                foodStringDetails[3],   // Pick up times
+                foodStringDetails[4],   // Quantity
+                foodStringDetails[5],   // Location
+                foodLatLng[0],          // Latitude
+                foodLatLng[1]           // Longitude
         );
 
         ImageView image = findViewById(R.id.detailsImageView);
@@ -68,7 +74,7 @@ public class FoodDetailsActivity extends AppCompatActivity {
         TextView date = findViewById(R.id.detailsDateValueTextView);
         TextView pickUpTimes = findViewById(R.id.detailsPickUpTimesValueTextView);
         TextView quantity = findViewById(R.id.detailsQuantityValueTextView);
-        TextView location = findViewById(R.id.detailsLocationValueTextView);
+        //TextView location = findViewById(R.id.detailsLocationValueTextView);
 
         // Set all food details according to the food object passed to here via intent
         image.setImageBitmap(food.getImage());
@@ -77,7 +83,7 @@ public class FoodDetailsActivity extends AppCompatActivity {
         date.setText(food.getDate());
         pickUpTimes.setText(food.getPickUpTimes());
         quantity.setText(food.getQuantity());
-        location.setText(food.getLocation());
+        //location.setText(food.getLocation());
 
         // Start the PayPal service
         Intent ppService = new Intent(this, PayPalService.class);
@@ -131,6 +137,10 @@ public class FoodDetailsActivity extends AppCompatActivity {
         // Alert the user whether the addition to cart was successful
         if (rowsAffected > 0) {
             Toast.makeText(FoodDetailsActivity.this, "Added to cart", Toast.LENGTH_SHORT).show();
+            Intent newHomeIntent = new Intent(FoodDetailsActivity.this, HomeActivity.class);
+            user = db.getUser(user.getUserId());           // Update the user to the most up to date from the table
+            newHomeIntent.putExtra(Keys.USER_KEY, user);   // Pass user object to intent
+            startActivity(newHomeIntent);   // Start new HomeActivity with same user passed to intent
             finish();
         }
         else Toast.makeText(FoodDetailsActivity.this, "Failed to add food to cart", Toast.LENGTH_SHORT).show();
@@ -146,5 +156,10 @@ public class FoodDetailsActivity extends AppCompatActivity {
         payIntent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, ppConfig);
         payIntent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
         startActivityForResult(payIntent, PAYPAL_REQUEST_CODE); // Start the activity
+    }
+
+    // Getter method for returning the value of latitude and longitude, as a double array
+    public double[] getLatLng() {
+        return this.foodLatLng;
     }
 }

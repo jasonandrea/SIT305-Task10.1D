@@ -12,8 +12,8 @@ public class Food {
     private double lat, lng; // For storing location data, lat is latitude and lng is longitude
 
     // Constructors
-    public Food(int id, Bitmap image, String name, String description, String date,
-                String pickUpTimes, String quantity, String location) {
+    public Food(int id, Bitmap image, String name, String description, String date, String pickUpTimes,
+                String quantity, String location, double latitude, double longitude) {
         this.id = id;
         this.image = image;
         this.name = name;
@@ -22,10 +22,12 @@ public class Food {
         this.pickUpTimes = pickUpTimes;
         this.quantity = quantity;
         this.location = location;
+        this.lat = latitude;
+        this.lng = longitude;
     }
 
-    public Food(Bitmap image, String name, String description, String date,
-                String pickUpTimes, String quantity, String location) {
+    public Food(Bitmap image, String name, String description, String date, String pickUpTimes,
+                String quantity, String location, double latitude, double longitude) {
         this.image = image;
         this.name = name;
         this.desc = description;
@@ -33,6 +35,8 @@ public class Food {
         this.pickUpTimes = pickUpTimes;
         this.quantity = quantity;
         this.location = location;
+        this.lat = latitude;
+        this.lng = longitude;
     }
 
     // Methods

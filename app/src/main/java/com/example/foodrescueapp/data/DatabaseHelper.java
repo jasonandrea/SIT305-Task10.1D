@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -204,6 +203,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         foodValues.put(DbInfo.FOOD_PICK_UP_TIMES, food.getPickUpTimes());
         foodValues.put(DbInfo.FOOD_QUANTITY, food.getQuantity());
         foodValues.put(DbInfo.FOOD_LOCATION, food.getLocation());
+        foodValues.put(DbInfo.FOOD_LAT, food.getLat());
+        foodValues.put(DbInfo.FOOD_LNG, food.getLng());
 
         // Insert new record with foodValues above then close SQLiteDatabase
         long newRowId = db.insert(DbInfo.FOOD_TABLE_NAME, null, foodValues);
@@ -300,12 +301,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String pickUpTimes = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_PICK_UP_TIMES));
                 String quantity = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_QUANTITY));
                 String location = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_LOCATION));
+                double lat = cursor.getDouble(cursor.getColumnIndex(DbInfo.FOOD_LAT));
+                double lng = cursor.getDouble(cursor.getColumnIndex(DbInfo.FOOD_LNG));
 
                 // Convert image blob to Bitmap before creating new food object and adding it to list
                 Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageBlob, 0, imageBlob.length);
 
                 // Create new Food object and add it to the list
-                foods.add(new Food(id, imageBitmap, name, desc, date, pickUpTimes, quantity, location));
+                foods.add(new Food(id, imageBitmap, name, desc, date, pickUpTimes, quantity, location, lat, lng));
 
                 cursor.moveToNext();
             }
@@ -342,12 +345,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String pickUpTimes = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_PICK_UP_TIMES));
                 String quantity = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_QUANTITY));
                 String location = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_LOCATION));
+                double lat = cursor.getDouble(cursor.getColumnIndex(DbInfo.FOOD_LAT));
+                double lng = cursor.getDouble(cursor.getColumnIndex(DbInfo.FOOD_LNG));
 
                 // Convert image blob to Bitmap before creating new food object and adding it to list
                 Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageBlob, 0, imageBlob.length);
 
                 // Create new Food object and add it to the list
-                foods.add(new Food(id, imageBitmap, name, desc, date, pickUpTimes, quantity, location));
+                foods.add(new Food(id, imageBitmap, name, desc, date, pickUpTimes, quantity, location, lat, lng));
             }
         }
 
@@ -382,12 +387,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String pickUpTimes = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_PICK_UP_TIMES));
                 String quantity = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_QUANTITY));
                 String location = cursor.getString(cursor.getColumnIndex(DbInfo.FOOD_LOCATION));
+                double lat = cursor.getDouble(cursor.getColumnIndex(DbInfo.FOOD_LAT));
+                double lng = cursor.getDouble(cursor.getColumnIndex(DbInfo.FOOD_LNG));
 
                 // Convert image blob to Bitmap before creating new food object and adding it to list
                 Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageBlob, 0, imageBlob.length);
 
                 // Create new Food object and add it to the list
-                foods.add(new Food(id, imageBitmap, name, desc, date, pickUpTimes, quantity, location));
+                foods.add(new Food(id, imageBitmap, name, desc, date, pickUpTimes, quantity, location, lat, lng));
             }
         }
 

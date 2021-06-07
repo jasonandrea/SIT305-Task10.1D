@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.foodrescueapp.util.Keys;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,9 +33,14 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            // Get the value of latitude and longitude from FoodDetailsActivity
+            FoodDetailsActivity activity = (FoodDetailsActivity) getActivity();
+            double[] foodLatLng = activity.getLatLng();
+
+            // Create the marker and show it on the map
+            LatLng location = new LatLng(foodLatLng[0], foodLatLng[1]);
+            googleMap.addMarker(new MarkerOptions().position(location));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
         }
     };
 

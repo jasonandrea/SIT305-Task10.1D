@@ -19,6 +19,13 @@ import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.Food;
 import com.example.foodrescueapp.model.User;
 import com.example.foodrescueapp.util.Keys;
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,7 +35,9 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class AddFoodActivity extends AppCompatActivity {
-    public static final int IMAGE_GALLERY_REQUEST = 14;
+    public static final int IMAGE_GALLERY_REQUEST = 432;
+    public static final int AC_REQUEST = 847;
+
     private DatabaseHelper db;
     private ImageView imagePreview;
     private EditText name, desc, pickUpTimes, quantity, location;
@@ -36,6 +45,7 @@ public class AddFoodActivity extends AppCompatActivity {
     private Bitmap image;
     private User user;
     private Intent intent;
+    private double lat, lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +69,9 @@ public class AddFoodActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // This will run if everything is running as expected/successfully
         if (resultCode == RESULT_OK) {
-            // This will run if everything is running as expected/successfully
+            // Branch for IMAGE_GALLERY_REQUEST code
             if (requestCode == IMAGE_GALLERY_REQUEST){
                 Uri imageUri = data.getData();  // The address of the image
                 InputStream inputStream;
@@ -76,6 +87,19 @@ public class AddFoodActivity extends AppCompatActivity {
                     Toast.makeText(AddFoodActivity.this, "File is not found", Toast.LENGTH_SHORT).show();
                 }
             }
+
+            // Branch for AC_REQUEST code
+            if (requestCode == AC_REQUEST) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                location.setText(place.getName());          // Set locationEditText text to the name of the location
+                lat = place.getLatLng().latitude;           // Set lat to the latitude of the location
+                lng = place.getLatLng().longitude;          // Set lng to the longitude of the location
+            }
+        }
+        else if (resultCode == AutocompleteActivity.RESULT_ERROR) { // This will run if there is an error
+            // Show error message (toast) if something goes wrong
+            Status status = Autocomplete.getStatusFromIntent(data);
+            Toast.makeText(AddFoodActivity.this, status.getStatusMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -89,6 +113,21 @@ public class AddFoodActivity extends AppCompatActivity {
         homeIntent.putExtra(Keys.USER_KEY, user);
         startActivity(homeIntent);
         finish();
+    }
+
+    // OnClick method that will be called when clicking the location edittext. New intent will be started
+    public void openPlacesAutocomplete(View view) {
+        // Initialise the Places SDK & create a new Places client instance
+        Places.initialize(getApplicationContext(), getString(R.string.google_maps_key));
+        PlacesClient pc = Places.createClient(this);
+
+        // Start the auto complete intent
+        Intent acIntent = new Autocomplete.IntentBuilder(
+                AutocompleteActivityMode.OVERLAY,
+                Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
+                .setCountries(Arrays.asList("AU"))
+                .build(this);
+        startActivityForResult(acIntent, AC_REQUEST);
     }
 
     // Method that is called when clicking add image text. Gallery will open and the user
@@ -146,7 +185,9 @@ public class AddFoodActivity extends AppCompatActivity {
                     foodStrInfo[2],
                     foodStrInfo[3],
                     foodStrInfo[4],
-                    foodStrInfo[5]
+                    foodStrInfo[5],
+                    lat,    // This is a global variable, the value is from AutoComplete places
+                    lng     // Same as latitude, this one is for longitude
             ), user);
 
             // Check whether the insertion was successful

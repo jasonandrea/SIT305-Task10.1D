@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MyListActivity extends AppCompatActivity implements FoodsAdapter.OnFoodListener {
+    private DatabaseHelper db;
     private RecyclerView foodRecyclerView;
     private FoodsAdapter foodsAdapter;
     private Intent intent;
@@ -33,7 +34,7 @@ public class MyListActivity extends AppCompatActivity implements FoodsAdapter.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_list);
-        DatabaseHelper db = new DatabaseHelper(this);
+        db = new DatabaseHelper(this);
 
         // Get intent and get user object from the intent
         intent = getIntent();
@@ -80,6 +81,7 @@ public class MyListActivity extends AppCompatActivity implements FoodsAdapter.On
                 break;
             case R.id.cartOption: // "Cart" option chosen
                 Intent newCartIntent = new Intent(MyListActivity.this, CartActivity.class);
+                user = db.getUser(user.getUserId());            // Update the user to the most up to date from the table
                 newCartIntent.putExtra(Keys.USER_KEY, user);    // Pass user object to intent
                 startActivity(newCartIntent);   // Start new CartActivity with same user passed to intent
                 finish();                       // Finish current activity
@@ -125,11 +127,16 @@ public class MyListActivity extends AppCompatActivity implements FoodsAdapter.On
                 foods.get(position).getQuantity(),
                 foods.get(position).getLocation()
         };
+        double[] foodLocationLatLng = new double[] {
+                foods.get(position).getLat(),
+                foods.get(position).getLng()
+        };
 
         // Pass image blob and other details to intent
         newIntent.putExtra(Keys.FOOD_ID_KEY, foods.get(position).getId());
         newIntent.putExtra(Keys.FOOD_IMAGE_BLOB, imageBlob);
         newIntent.putExtra(Keys.FOOD_STRING_DETAILS, foodDetails);
+        newIntent.putExtra(Keys.FOOD_LAT_LNG_DETAILS, foodLocationLatLng);
         newIntent.putExtra(Keys.USER_KEY, user);
 
         // Start the activity

@@ -2,6 +2,8 @@ package com.example.foodrescueapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,10 +22,10 @@ import com.example.foodrescueapp.util.FoodsAdapter;
 import com.example.foodrescueapp.util.Keys;
 import com.example.foodrescueapp.util.ShareUtil;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements FoodsAdapter.OnFoodListener {
+    private DatabaseHelper db;
     private RecyclerView foodRecyclerView;
     private FoodsAdapter foodsAdapter;
     private Intent intent;
@@ -34,7 +36,7 @@ public class HomeActivity extends AppCompatActivity implements FoodsAdapter.OnFo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        DatabaseHelper db = new DatabaseHelper(this);
+        db = new DatabaseHelper(this);
 
         // Get all foods from database and store it to food (list)
         foods = db.fetchAllFood();
@@ -81,6 +83,7 @@ public class HomeActivity extends AppCompatActivity implements FoodsAdapter.OnFo
                 break;
             case R.id.cartOption: // "Cart" option chosen
                 Intent newCartIntent = new Intent(HomeActivity.this, CartActivity.class);
+                user = db.getUser(user.getUserId());            // Update the user to the most up to date from the table
                 newCartIntent.putExtra(Keys.USER_KEY, user);    // Pass user object to intent
                 startActivity(newCartIntent);   // Start new CartActivity with same user passed to intent
                 finish();                       // Finish current activity
@@ -90,6 +93,16 @@ public class HomeActivity extends AppCompatActivity implements FoodsAdapter.OnFo
                 throw new IllegalStateException("Unexpected value: " + item.getItemId());
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // Method that will be called when pressing the back button on the phone
+    // This is to bring the user back to LoginActivity when pressing back in HomeActivity
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent logIntent = new Intent(HomeActivity.this, LoginActivity.class);
+        startActivity(logIntent);
+        finish();
     }
 
     // onClick method that will be called on clicking homeAddFoodButton
@@ -113,13 +126,18 @@ public class HomeActivity extends AppCompatActivity implements FoodsAdapter.OnFo
             foods.get(position).getDate(),
             foods.get(position).getPickUpTimes(),
             foods.get(position).getQuantity(),
-            foods.get(position).getLocation(),
+            foods.get(position).getLocation()
+        };
+        double[] foodLocationLatLng = new double[] {
+            foods.get(position).getLat(),
+            foods.get(position).getLng()
         };
 
         // Pass image blob and other details to intent
         newIntent.putExtra(Keys.FOOD_ID_KEY, foods.get(position).getId());
         newIntent.putExtra(Keys.FOOD_IMAGE_BLOB, imageBlob);
         newIntent.putExtra(Keys.FOOD_STRING_DETAILS, foodDetails);
+        newIntent.putExtra(Keys.FOOD_LAT_LNG_DETAILS, foodLocationLatLng);
         newIntent.putExtra(Keys.USER_KEY, user);
 
         // Start the activity
